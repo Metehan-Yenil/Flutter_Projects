@@ -3,8 +3,7 @@ class Urunler{
   String baslik;
   String aciklama;
   String resimUrl;
-  String resimUrl2;
-  String resimUrl3;
+  int begeniSayisi;
 
 
 
@@ -13,6 +12,5 @@ class Urunler{
 
 
 
-  Urunler(this.id, this.baslik, this.aciklama, this.resimUrl, this.resimUrl2,
-      this.resimUrl3, this.fiyat, this.kategori);
+  Urunler(this.id, this.baslik, this.aciklama, this.resimUrl, this.fiyat, this.kategori, this.begeniSayisi);
 }

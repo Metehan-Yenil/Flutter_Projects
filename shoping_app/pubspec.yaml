@@ -53,7 +53,14 @@ dev_dependencies:
 flutter:
   assets:
     - resimler/banner.jpg
-    - resimler/
+    - resimler/1.jpg
+    - resimler/2.jpg
+    - resimler/3.jpg
+    - resimler/4.jpg
+    - resimler/5.jpg
+    - resimler/6.jpg
+    - resimler/7.jpg
+
 
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
