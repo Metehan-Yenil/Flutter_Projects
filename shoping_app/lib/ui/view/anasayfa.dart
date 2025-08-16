@@ -90,7 +90,9 @@ class _AnasayfaState extends State<Anasayfa> {
         ),
       ),
 
-      body: Column(
+      body: Stack(
+    children: [
+      Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           Row(
@@ -237,6 +239,41 @@ class _AnasayfaState extends State<Anasayfa> {
 
 
         ],
+      ),
+      Positioned(
+        right: -185,
+        bottom: -320 + kBottomNavigationBarHeight,
+        child: SizedBox(
+          width: 450,
+          height: 450,
+          child: Stack(
+            children: [
+              Image.asset(
+                "resimler/firsat.png",
+                fit: BoxFit.contain,
+              ),
+              Positioned(
+                top: 70,
+                right: 190,
+                child: GestureDetector(
+                  onTap: () {
+
+                  },
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Colors.black54,
+                      shape: BoxShape.circle,
+                    ),
+                    padding: EdgeInsets.all(4),
+                    child: Icon(Icons.close, color: Colors.white, size: 10),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+      ],
       ),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: selectedIndex,
