@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:kisiler_uygulamasi/data/entity/kisiler.dart';
+import 'package:kisiler_uygulamasi/ui/cubit/detay_cubit.dart';
+import 'package:kisiler_uygulamasi/data/repo/kisilerdao_repository.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class DetaySayfa extends StatefulWidget {
   final Kisiler kisi;
@@ -28,11 +31,7 @@ class _DetaySayfaState extends State<DetaySayfa> {
     super.dispose();
   }
 
-  void guncelle(int kisi_id, String ad, String tel) {
-    // Güncelleme işlemleri burada yapılır
-    print("Güncellendi: $kisi_id, $ad, $tel");
-    Navigator.pop(context);
-  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +45,12 @@ class _DetaySayfaState extends State<DetaySayfa> {
             TextField(controller: tfKisiTel, decoration: const InputDecoration(hintText: "kişi teli")),
             ElevatedButton(
               onPressed: () {
-                guncelle(widget.kisi.kisi_id, tfKisiAdi.text, tfKisiTel.text);
+                context.read<DetayCubit>().guncelle(
+                  widget.kisi.kisi_id,
+                  tfKisiAdi.text,
+                  tfKisiTel.text,
+                );
+                Navigator.pop(context);
               },
               child: const Text("Güncelle"),
             ),

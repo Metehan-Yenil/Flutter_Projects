@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:kisiler_uygulamasi/ui/view/kayit_sayfa.dart';
 import 'package:kisiler_uygulamasi/data/entity/kisiler.dart';
 import 'package:kisiler_uygulamasi/ui/view/detay_sayfa.dart';
+import 'package:kisiler_uygulamasi/data/repo/kisilerdao_repository.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:kisiler_uygulamasi/ui/cubit/anasayfa_cubit.dart';
 
 class Anasayfa extends StatefulWidget {
   const Anasayfa({super.key});
@@ -13,23 +16,14 @@ class Anasayfa extends StatefulWidget {
 class _AnasayfaState extends State<Anasayfa> {
   bool aramaYapiliyormu = false;
 
-  Future<void> ara(String aramaKelimesi) async {
-    print("Arama yapılıyor: $aramaKelimesi");
-  }
 
-  Future<void> sil(int kisi_id) async {
-    print("kisi siliniyor $kisi_id");
-  }
 
-  Future<List<Kisiler>> kisileriYukle() async {
-    var kisilerListesi = <Kisiler>[];
-    var kisi1 = Kisiler(kisi_id: 1, kisi_ad: "Ahmet", kisi_tel: "123456789");
-    var kisi2 = Kisiler(kisi_id: 2, kisi_ad: "Mehmet", kisi_tel: "987654321");
-    var kisi3 = Kisiler(kisi_id: 3, kisi_ad: "Ayşe", kisi_tel: "555555555");
-    kisilerListesi.add(kisi1);
-    kisilerListesi.add(kisi2);
-    kisilerListesi.add(kisi3);
-    return kisilerListesi;
+
+
+  initState() {
+    super.initState();
+    context.read<AnasayfaCubit>().kisileriYukle();
+
   }
 
   @override
@@ -40,7 +34,8 @@ class _AnasayfaState extends State<Anasayfa> {
             ? TextField(
           decoration: const InputDecoration(hintText: "Kişi Ara"),
           onChanged: (aramaSonucu) {
-            ara(aramaSonucu);
+
+            context.read<AnasayfaCubit>().ara(aramaSonucu);
           },
         )
             : const Text("Kisiler"),
@@ -51,6 +46,7 @@ class _AnasayfaState extends State<Anasayfa> {
                 setState(() {
                   aramaYapiliyormu = false;
                 });
+                context.read<AnasayfaCubit>().kisileriYukle();
               },
               icon: const Icon(Icons.cancel))
               : IconButton(
@@ -62,15 +58,13 @@ class _AnasayfaState extends State<Anasayfa> {
               icon: const Icon(Icons.search))
         ],
       ),
-      body: FutureBuilder<List<Kisiler>>(
-        future: kisileriYukle(),
+      body: BlocBuilder<AnasayfaCubit,List<Kisiler>>(
         builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            var kisilerListesi = snapshot.data;
+          if (snapshot.isNotEmpty) {
             return ListView.builder(
-              itemCount: kisilerListesi!.length,
+              itemCount: snapshot.length,
               itemBuilder: (context, index) {
-                var kisi = kisilerListesi[index];
+                var kisi = snapshot[index];
                 return GestureDetector(
                   onTap: () {
                     Navigator.push(
@@ -109,7 +103,7 @@ class _AnasayfaState extends State<Anasayfa> {
                                     content: Text("${kisi.kisi_ad} silinsin mi?"),
                                     action: SnackBarAction(label: "evet",
                                         onPressed: (){
-                                      sil(kisi.kisi_id);
+                                      context.read<AnasayfaCubit>().sil(kisi.kisi_id);
                                         }),
                                   )
                                 );
