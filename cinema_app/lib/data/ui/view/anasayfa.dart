@@ -3,6 +3,7 @@ import 'package:cinema_app/data/ui/cubits/anasayfa_cubit.dart';
 import 'package:cinema_app/data/ui/view/detay_sayfa.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Anasayfa extends StatefulWidget {
   const Anasayfa({super.key});
@@ -14,10 +15,26 @@ class Anasayfa extends StatefulWidget {
 
 class _AnasayfaState extends State<Anasayfa> {
 
+  int calismaSayaci = 0;
+
+
+  Future<void> calistirmaSayac() async {
+    var prefs = await SharedPreferences.getInstance();
+    calismaSayaci= (prefs.getInt("calismaSayaci") ?? 0)+1;
+    await prefs.setInt("calismaSayaci", calismaSayaci);
+    print("bu uygulama toplamda $calismaSayaci kere çalıştırıldı");
+
+  }
+  @override
   void initState() {
     super.initState();
     //Cubit i başlatıyoruz
     context.read<AnasayfaCubit>().filmYukle();
+    calistirmaSayac();
+
+
+
+
   }
   /*Future<List<Filmler>> filmYukle() async{
     var filmlerListesi = <Filmler>[];
@@ -42,7 +59,7 @@ class _AnasayfaState extends State<Anasayfa> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Anasayfa'),
+        title: const Text('Anasayfa '),
         centerTitle: true,
       ),
       body: BlocBuilder<AnasayfaCubit, List<Filmler>>(
