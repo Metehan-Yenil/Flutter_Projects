@@ -132,6 +132,7 @@ class _AnasayfaState extends State<Anasayfa> {
                   builder: (context) => const KayitSayfa()))
               .then((value) {
             print("anasayfaya Geri döndü");
+            context.read<AnasayfaCubit>().kisileriYukle();
           });
         },
         child: const Icon(Icons.add),

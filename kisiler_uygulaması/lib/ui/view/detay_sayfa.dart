@@ -3,6 +3,7 @@ import 'package:kisiler_uygulamasi/data/entity/kisiler.dart';
 import 'package:kisiler_uygulamasi/ui/cubit/detay_cubit.dart';
 import 'package:kisiler_uygulamasi/data/repo/kisilerdao_repository.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:kisiler_uygulamasi/ui/cubit/anasayfa_cubit.dart';
 
 class DetaySayfa extends StatefulWidget {
   final Kisiler kisi;
@@ -50,6 +51,7 @@ class _DetaySayfaState extends State<DetaySayfa> {
                   tfKisiAdi.text,
                   tfKisiTel.text,
                 );
+                context.read<AnasayfaCubit>().kisileriYukle();
                 Navigator.pop(context);
               },
               child: const Text("Güncelle"),

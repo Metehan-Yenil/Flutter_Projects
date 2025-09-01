@@ -4,6 +4,7 @@ import 'package:kisiler_uygulamasi/ui/view/anasayfa.dart';
 import 'package:kisiler_uygulamasi/ui/cubit/kayit_cubit.dart';
 import 'package:kisiler_uygulamasi/ui/cubit/detay_cubit.dart';
 import 'package:kisiler_uygulamasi/ui/cubit/anasayfa_cubit.dart';
+//import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 void main() {
   runApp(const MyApp());
 }
