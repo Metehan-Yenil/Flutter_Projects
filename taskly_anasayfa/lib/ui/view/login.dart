@@ -1,10 +1,15 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:taskly_anasayfa/ui/cubit/session_cubit.dart';
+import 'package:taskly_anasayfa/ui/view/anasayfa.dart';
 import 'package:taskly_anasayfa/ui/view/register.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:taskly_anasayfa/ui/cubit/login_cubit.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});
+
   @override
   State<Login> createState() => _LoginState();
 }
@@ -40,7 +45,7 @@ class _LoginState extends State<Login> {
                       child: TextField(
                         controller: emailController,
                         style: const TextStyle(
-                          color: Colors.white,
+                          color: Colors.black,
                           fontSize: 20,
                         ),
                         decoration: InputDecoration(
@@ -64,7 +69,7 @@ class _LoginState extends State<Login> {
                         controller: passwordController,
                         obscureText: true,
                         style: const TextStyle(
-                          color: Colors.white,
+                          color: Colors.black,
                           fontSize: 20,
                         ),
                         decoration: InputDecoration(
@@ -92,9 +97,29 @@ class _LoginState extends State<Login> {
                         ),
                         minimumSize: const Size(200, 45),
                       ),
-                      onPressed: () {
-                          loginCubit.login(emailController.text, passwordController.text);
-                        Navigator.pushReplacementNamed(context, '/anasayfa');
+                      onPressed: () async{
+                        final sessionCubit = context.read<SessionCubit>();
+
+                          final user= await loginCubit.login(
+                            emailController.text.trim(),
+                            passwordController.text.trim(),
+                          );
+                          if(user != null){
+                            await sessionCubit.setUser(user);
+                            if (!mounted) return;
+
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(content: Text('Giriş başarılı')),
+                            );
+                            Navigator.pushReplacement(
+                                  context, MaterialPageRoute(builder: (_)=> Anasayfa(usernameDb: user.username),
+                            ),
+                            );
+                          } else {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(content: Text('Giriş başarısız, lütfen bilgilerinizi kontrol edin.')),
+                            );
+                          }
                       },
                       child: const Text(
                         'Giriş Yap',

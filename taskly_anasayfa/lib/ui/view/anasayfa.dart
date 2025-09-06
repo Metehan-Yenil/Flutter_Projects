@@ -3,7 +3,8 @@ import 'package:taskly_anasayfa/ui/view/calendar.dart';
 import 'package:taskly_anasayfa/ui/view/profil.dart';
 
 class Anasayfa extends StatefulWidget {
-  const Anasayfa({super.key});
+  final String? usernameDb;
+  const Anasayfa({super.key, this.usernameDb});
 
   @override
   State<Anasayfa> createState() => _AnasayfaState();
@@ -47,13 +48,13 @@ class _AnasayfaState extends State<Anasayfa> {
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.start,
-                          children: const [
+                          children: [
                             Text(
                               "Hello!",
                               style: TextStyle(fontSize: 12, color: Colors.grey),
                             ),
                             Text(
-                              "Metehan Yenil",
+                              widget.usernameDb ?? 'Misafir',
                               style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                             ),
                           ],

@@ -14,22 +14,31 @@ class TasklyRepository {
     print("----------------------------------------------------Veri eklendi----------------------------------------------------");
   }
 
-  Future<void> girisyap(String email, String password) async {
-    var db = await VeritabaniYardimcisi.veritabaniErisim();
-    List<Map<String, dynamic>> maps = await db.query("users",
-        columns: ["user_id", "username", "email", "password"],
-        where: "email = ? AND password = ?",
-        whereArgs: [email, password]);
+  Future<Users?> girisyap(String email, String password) async {
+    final db = await VeritabaniYardimcisi.veritabaniErisim();
+    final maps = await db.query(
+      'users',
+      where: 'email = ? AND password = ?',
+      whereArgs: [email, password],
+    );
     if (maps.isNotEmpty) {
-      var kullanici = Users(
-          user_id: maps.first["user_id"],
-          username: maps.first["username"],
-          email: maps.first["email"],
-          password: maps.first["password"]);
-      print("----------------------------------------------------Giriş başarılı: ${kullanici.username}----------------------------------------------------");
-    } else {
-      print("----------------------------------------------------Giriş başarısız----------------------------------------------------");
+      return Users.fromMap(maps.first);
     }
+    return null;
+  }
+
+  Future<String?> kullaniciadiCek(String email) async {
+    final db = await VeritabaniYardimcisi.veritabaniErisim();
+    final maps = await db.query(
+      "users",
+      columns: ["username"],
+      where: "email = ?",
+      whereArgs: [email],
+    );
+    if (maps.isNotEmpty) {
+      return maps.first["username"] as String;
+    }
+    return null;
   }
 
 

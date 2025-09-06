@@ -7,8 +7,8 @@ import 'package:taskly_anasayfa/ui/view/calendar.dart';
 import 'package:taskly_anasayfa/ui/view/login.dart';
 import 'package:taskly_anasayfa/ui/view/profil.dart';
 import 'package:taskly_anasayfa/ui/view/register.dart';
-import 'package:taskly_anasayfa/ui/view/simple_calculator.dart';
-
+//import 'package:taskly_anasayfa/ui/view/simple_calculator.dart';
+import 'package:taskly_anasayfa/ui/cubit/session_cubit.dart';
 void main() {
   runApp(const MyApp());
 }
@@ -24,6 +24,7 @@ class MyApp extends StatelessWidget {
 
         BlocProvider(create: (context) => RegisterCubit()),
         BlocProvider(create: (context) => LoginCubit()),
+        BlocProvider(create: (context) => SessionCubit()..restore()),
       ],
       child: MaterialApp(
         title: 'Flutter Demo',
@@ -42,7 +43,17 @@ class MyApp extends StatelessWidget {
 
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         ),
-        home: const Anasayfa(),
+        home: BlocBuilder<SessionCubit, SessionState>(
+            builder: (context,state){
+              if(state.restoring){
+                return const Scaffold(body: Center(child: CircularProgressIndicator(),),);
+              }
+              if (state.user != null){
+                return Anasayfa(usernameDb: state.user!.username);
+              }
+              return const Login();
+            },
+        ),
       ),
     );
   }

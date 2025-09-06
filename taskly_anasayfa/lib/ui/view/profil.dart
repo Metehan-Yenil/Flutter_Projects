@@ -1,15 +1,29 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:path/path.dart';
+import 'package:taskly_anasayfa/ui/cubit/session_cubit.dart';
 
 class Profil extends StatefulWidget {
+
   const Profil({super.key});
+
 
   @override
   State<Profil> createState() => _ProfilState();
 }
 
 class _ProfilState extends State<Profil> {
+
   @override
   Widget build(BuildContext context) {
+    final sessionState= context.watch<SessionCubit>().state;
+    final user= sessionState.user;
+
+    if (user != null){
+      final username= user.username;
+      final email= user.email;
+      final password= user.password;
+    }
     return Scaffold(
       appBar: AppBar(
         title: const Text('Profil'),
@@ -31,18 +45,18 @@ class _ProfilState extends State<Profil> {
               ),
             ),
             const SizedBox(height: 20),
-            const Text(
-              'Kullanıcı Adı',
+             Text(
+              user?.username ?? 'kullanıcı adı',
               style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 8),
-            const Text(
-              'kullanici@email.com',
+            Text(
+              user?.email ?? 'kullanici@email.com',
               style: TextStyle(fontSize: 16, color: Colors.grey),
             ),
             const SizedBox(height: 16),
-            const Text(
-              'Kısa bir açıklama veya biyografi buraya yazılabilir.',
+            Text(
+              user != null ? '*' * user.password.length : 'şifreniz',
               textAlign: TextAlign.center,
               style: TextStyle(fontSize: 14),
             ),
@@ -71,8 +85,10 @@ class _ProfilState extends State<Profil> {
               icon: const Icon(Icons.exit_to_app),
               label: const Text('Çıkış yap'),
               onPressed: () {
+                context.read<SessionCubit>().clearUser();
                 Navigator.pushReplacementNamed(
                     context, '/login');
+
 
 
               },

@@ -6,8 +6,13 @@ class LoginCubit extends Cubit<void> {
   LoginCubit() : super(null);
   var trepo= TasklyRepository();
 
-  Future<void> login(String email, String password) async {
-    trepo.girisyap(email, password);
+  Future<Users?> login(String email, String password) {
+   return trepo.girisyap(email, password);
+  }
+
+
+  Future<String?> fetchUsername(String email) async {
+   return trepo.kullaniciadiCek(email);
   }
 
 
