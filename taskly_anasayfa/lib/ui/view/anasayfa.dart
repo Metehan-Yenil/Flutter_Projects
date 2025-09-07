@@ -1,16 +1,35 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:taskly_anasayfa/ui/cubit/tasks_cubit.dart';
+import 'package:taskly_anasayfa/ui/view/addtask.dart';
 import 'package:taskly_anasayfa/ui/view/calendar.dart';
 import 'package:taskly_anasayfa/ui/view/profil.dart';
 
 class Anasayfa extends StatefulWidget {
   final String? usernameDb;
-  const Anasayfa({super.key, this.usernameDb});
+  final int? userId;
+  const Anasayfa({super.key, this.usernameDb, this.userId});
 
   @override
   State<Anasayfa> createState() => _AnasayfaState();
 }
 
 class _AnasayfaState extends State<Anasayfa> {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_){
+      if (widget.userId != null){
+        try {
+          context.read<TaskCubit>().taskleriYukle(widget.userId!);
+        }
+        catch (_){
+
+        }
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -180,7 +199,8 @@ class _AnasayfaState extends State<Anasayfa> {
             )
 
           ),
-          Padding(padding: const EdgeInsets.symmetric(horizontal: 16,vertical: 8),
+          Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16,vertical: 8),
           child: SingleChildScrollView(
             scrollDirection: Axis.horizontal,
             child: Row(
@@ -1153,7 +1173,9 @@ class _AnasayfaState extends State<Anasayfa> {
           ]
         ),
         clipBehavior: Clip.hardEdge,
-        child: FloatingActionButton(onPressed: (){},
+        child: FloatingActionButton(onPressed: (){
+          Navigator.push(context, MaterialPageRoute(builder: (context) => const Addtask()));
+        },
           child: Icon(Icons.add,color: Colors.white,),
           backgroundColor: Colors.deepPurple,
           elevation: 0,

@@ -23,10 +23,11 @@ class SessionCubit extends Cubit<SessionState>{
     final email = prefs.getString('email');
     final username = prefs.getString('username');
     final password = prefs.getString('password');
+    final userId = prefs.getInt('user_id');
 
-    if (email != null && username != null && password != null) {
+    if (email != null && username != null && password != null && userId != null) {
       emit(SessionState(
-        user: Users(username: username, email: email, password: password),
+        user: Users(user_id: userId, username: username, email: email, password: password),
         restoring: false,
       ));
     } else {
@@ -40,6 +41,7 @@ class SessionCubit extends Cubit<SessionState>{
     await pref.setString('email', user.email);
     await pref.setString('username', user.username);
     await pref.setString('password', user.password);
+    await pref.setInt('user_id', user.user_id);
 
   }
   Future<void> clearUser() async {
@@ -48,6 +50,7 @@ class SessionCubit extends Cubit<SessionState>{
     await pref.remove('email');
     await pref.remove('username');
     await pref.remove('password');
+    await pref.remove('user_id');
 
   }
 

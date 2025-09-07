@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:taskly_anasayfa/ui/cubit/login_cubit.dart';
 import 'package:taskly_anasayfa/ui/cubit/register_cubit.dart';
+import 'package:taskly_anasayfa/ui/cubit/tasks_cubit.dart';
 import 'package:taskly_anasayfa/ui/view/anasayfa.dart';
 import 'package:taskly_anasayfa/ui/view/calendar.dart';
 import 'package:taskly_anasayfa/ui/view/login.dart';
@@ -25,6 +26,7 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (context) => RegisterCubit()),
         BlocProvider(create: (context) => LoginCubit()),
         BlocProvider(create: (context) => SessionCubit()..restore()),
+        BlocProvider(create: (context) => TaskCubit()),
       ],
       child: MaterialApp(
         title: 'Flutter Demo',
