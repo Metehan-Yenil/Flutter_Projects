@@ -30,7 +30,7 @@ class _AnasayfaState extends State<Anasayfa> {
     super.initState();
     //Cubit i başlatıyoruz
     context.read<AnasayfaCubit>().filmYukle();
-    calistirmaSayac();
+
 
 
 
@@ -70,7 +70,7 @@ class _AnasayfaState extends State<Anasayfa> {
                     itemCount: snapshot!.length,
                     gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 2,
-                      childAspectRatio: 1/1.8
+                      childAspectRatio: 1/1.9
                     ),
                     itemBuilder: (context, index){
                       var film = snapshot[index];

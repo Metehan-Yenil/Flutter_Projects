@@ -5,8 +5,9 @@ class Filmler{
   int fiyat;
 
   Filmler({
-    required this.ad,
+
     required this.id,
+    required this.ad,
     required this.resim,
     required this.fiyat,
   });

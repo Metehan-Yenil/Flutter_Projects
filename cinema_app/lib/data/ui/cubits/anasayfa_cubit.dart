@@ -8,9 +8,14 @@ class AnasayfaCubit extends Cubit<List<Filmler>> {
 
 
   Future<void> filmYukle() async{
-    var liste = await filmlerepo.filmYukle();
+   try {
+     var liste = await filmlerepo.filmYukle();
 
-    emit(liste);
+     emit(liste);
+   } catch (e) {
+     print("Hata var : $e");
+   }
+
 
 
   }
